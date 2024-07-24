@@ -1,8 +1,8 @@
 package flixel.system.debug.stats;
 
-import openfl.display.BitmapData;
-import openfl.system.System;
-import openfl.text.TextField;
+import flash.display.BitmapData;
+import flash.system.System;
+import flash.text.TextField;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.system.FlxLinkedList;
@@ -12,10 +12,10 @@ import flixel.system.debug.FlxDebugger.GraphicStats;
 import flixel.system.ui.FlxSystemButton;
 import flixel.util.FlxColor;
 
-#if FLX_DEBUG @:bitmap("assets/images/debugger/buttons/minimize.png") #end
+@:bitmap("assets/images/debugger/buttons/minimize.png")
 private class GraphicMinimizeButton extends BitmapData {}
 
-#if FLX_DEBUG @:bitmap("assets/images/debugger/buttons/maximize.png") #end
+@:bitmap("assets/images/debugger/buttons/maximize.png")
 private class GraphicMaximizeButton extends BitmapData {}
 
 /**
@@ -141,8 +141,10 @@ class Stats extends Window
 			drawMethod =
 				#if FLX_RENDER_TRIANGLE
 				"DrawTrian.";
-				#else
+				#elseif FLX_DRAW_QUADS
 				"DrawQuads";
+				#else
+				"DrawTiles";
 				#end
 			drawMethod = '\n$drawMethod:';
 		}

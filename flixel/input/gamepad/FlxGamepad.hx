@@ -17,12 +17,12 @@ import flixel.input.gamepad.mappings.SwitchProMapping;
 import flixel.input.gamepad.mappings.SwitchJoyconLeftMapping;
 import flixel.input.gamepad.mappings.SwitchJoyconRightMapping;
 import flixel.input.gamepad.mappings.XInputMapping;
-import flixel.math.FlxPoint;
+import flixel.math.FlxVector;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxStringUtil;
 #if FLX_GAMEINPUT_API
-import openfl.ui.GameInputControl;
-import openfl.ui.GameInputDevice;
+import flash.ui.GameInputControl;
+import flash.ui.GameInputDevice;
 import flixel.math.FlxMath;
 #elseif FLX_JOYSTICK_API
 import flixel.math.FlxPoint;
@@ -449,11 +449,7 @@ class FlxGamepad implements IFlxDestroyable
 	 */
 	public inline function firstPressedID():FlxGamepadInputID
 	{
-		var id = firstPressedRawID();
-		if (id < 0)
-			return id;
-
-		return mapping.getID(id);
+		return mapping.getID(firstPressedRawID());
 	}
 
 	/**
@@ -464,7 +460,7 @@ class FlxGamepad implements IFlxDestroyable
 	{
 		for (button in buttons)
 		{
-			if (button != null && button.pressed)
+			if (button != null && button.released)
 			{
 				return button.ID;
 			}
@@ -478,11 +474,7 @@ class FlxGamepad implements IFlxDestroyable
 	 */
 	public inline function firstJustPressedID():FlxGamepadInputID
 	{
-		var id = firstJustPressedRawID();
-		if (id < 0)
-			return id;
-
-		return mapping.getID(id);
+		return mapping.getID(firstJustPressedRawID());
 	}
 
 	/**
@@ -507,11 +499,7 @@ class FlxGamepad implements IFlxDestroyable
 	 */
 	public inline function firstJustReleasedID():FlxGamepadInputID
 	{
-		var id = firstJustReleasedRawID();
-		if (id < 0)
-			return id;
-
-		return mapping.getID(id);
+		return mapping.getID(firstJustReleasedRawID());
 	}
 
 	/**
@@ -641,14 +629,14 @@ class FlxGamepad implements IFlxDestroyable
 	}
 
 	/**
-	 * Convenience method that wraps `getXAxis()` and `getYAxis()` into a `FlxPoint`.
+	 * Convenience method that wraps `getXAxis()` and `getYAxis()` into a `FlxVector`.
 	 *
 	 * @param	AxesButtonID an analog stick like `FlxGamepadButtonID.LEFT_STICK`
 	 * @since	4.3.0
 	 */
-	public function getAnalogAxes(AxesButtonID:FlxGamepadInputID):FlxPoint
+	public function getAnalogAxes(AxesButtonID:FlxGamepadInputID):FlxVector
 	{
-		return FlxPoint.get(getXAxis(AxesButtonID), getYAxis(AxesButtonID));
+		return FlxVector.get(getXAxis(AxesButtonID), getYAxis(AxesButtonID));
 	}
 
 	/**
@@ -756,7 +744,7 @@ class FlxGamepad implements IFlxDestroyable
 		var xAxis = getAxisValue(stick.x);
 		var yAxis = getAxisValue(stick.y);
 
-		var vector = FlxPoint.get(xAxis, yAxis);
+		var vector = FlxVector.get(xAxis, yAxis);
 		var length = vector.length;
 		vector.put();
 

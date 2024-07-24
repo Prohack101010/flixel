@@ -1,7 +1,7 @@
 package flixel.math;
 
 import massive.munit.Assert;
-import flixel.math.FlxPoint;
+import flixel.math.FlxPoint.FlxCallbackPoint;
 
 class FlxCallbackPointTest extends FlxTest
 {

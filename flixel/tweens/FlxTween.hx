@@ -1,7 +1,5 @@
 package flixel.tweens;
 
-import flixel.tweens.misc.ShakeTween;
-import flixel.util.FlxAxes;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -9,7 +7,6 @@ import flixel.math.FlxMath;
 import flixel.tweens.FlxEase.EaseFunction;
 import flixel.tweens.misc.AngleTween;
 import flixel.tweens.misc.ColorTween;
-import flixel.tweens.misc.FlickerTween;
 import flixel.tweens.misc.NumTween;
 import flixel.tweens.misc.VarTween;
 import flixel.tweens.motion.CircularMotion;
@@ -24,7 +21,7 @@ import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 import flixel.math.FlxPoint;
 
 /** @since 4.5.0 **/
-enum abstract FlxTweenType(Int) from Int to Int
+@:enum abstract FlxTweenType(Int) from Int to Int
 {
 	/**
 	 * Persistent Tween type, will stop when it finishes.
@@ -52,127 +49,6 @@ enum abstract FlxTweenType(Int) from Int to Int
 	var BACKWARD = 16;
 }
 
-/**
- * Allows you to create smooth interpolations and animations easily. "Tweening" is short
- * for inbetweening: you only have to specify start and end values and `FlxTween` will
- * generate all values between those two.
- * 
- * ## Resources
- * - [Handbook - FlxTween](https://haxeflixel.com/documentation/flxtween/)
- * - [Demo - FlxTween](https://haxeflixel.com/demos/FlxTween/)
- * - [Snippets - FlxTween](https://snippets.haxeflixel.com/tweens/tween/)
- * 
- * ## Example
- * If you want to move a `FlxSprite` across the screen:
- * ```haxe
- * sprite.x = 200;
- * sprite.y = 200;
- * 
- * FlxTween.tween(sprite, { x: 600, y: 800 }, 2.0);
- * ```
- * The first two lines specify the start position of the sprite, because the `tween()` method
- * assumes the current position is the starting position.
- * 
- * ## Cancelling a Tween
- * If you start a tween using the code above, it will run until the desired values are reached,
- * then stop. As the `tween()` method returns an object of type `FlxTween`, keeping this object
- * in a variable allows you to access the current tween running if you wish to control it.
- * 
- * This code stops the translation of the sprite if the player presses the spacebar of their keyboard:
- * ```haxe
- * var tween:FlxTween;
- * 
- * public function new()
- * {
- *     super();
- *     // set up sprite
- *     tween = FlxTween.tween(sprite, { x:600, y:800 }, 2);
- * }
- * 
- * override public function update(elapsed:Float)
- * {
- *     super.update(elapsed);
- *     
- *     if (FlxG.keys.justPressed.SPACE)
- *         tween.cancel();
- * }
- * ```
- * ## Tweening Options
- * The `tween()` method takes an optional fourth parameter which is a map of options.
- * 
- * Possible values are:
- * - `type`:
- *     - *ONESHOT*: Stops and removes itself from its core container when it finishes
- *     - *PERSIST*: Like *ONESHOT*, but after it finishes you may call `start()` again
- *     - *BACKWARD*: Like *ONESHOT*, but plays in the reverse direction
- *     - *LOOPING*: Restarts immediately when it finishes
- *     - *PINGPONG*: Like *LOOPING*, but every second execution is in reverse direction
- * - `onComplete`: Called once the tween has finished. For looping tweens it is called every execution.
- * - `ease`: The method of interpolating the start and end points. Usually used to make the start and/or
- *           end of the tween smoother. `FlxEase` has various easing methods to choose from.
- * - `startDelay`: Time to wait before starting this tween, in seconds.
- * - `loopDelay`: Time to wait before this tween is repeated, in seconds
- * 
- * Example:
- * ```haxe
- * public function new()
- * {
- *     super();
- *     // set up sprite
- *     sprite.x = 200;
- *     sprite.y = 200;
- *     FlxTween.tween(sprite, { x: 600, y: 800 }, 2, 
- *         { 
- *             type:       PINGPONG,
- *             ease:       FlxEase.quadInOut,
- *             onComplete: changeColor,
- *             startDelay: 1,
- *             loopDelay:  2
- *         }
- *     );
- * }
- * 
- * function changeColor(tween:FlxTween):Void
- * {
- *     sprite.color = tween.executions % 2 == 0 ? FlxColor.RED : FlxColor.BLUE;
- * }
- * ```
- * 
- * This code moves the sprite constantly between the two points (200|200) and (600|800), smoothly
- * accelerating and decelerating. Each time the sprite arrives at one of those two points, its color
- * changes. The animation starts after 1 second and then the sprite pauses at each point for 2 seconds.
- * 
- * ## Special Tweens
- * There are many more tweening methods in `FlxTween`, which are used for special cases:
- * 
- * ### Color
- * Tweens the rgb components of a color independently, where normal tweening would screw up the colors.
- * 
- * ```haxe
- * FlxTween.color(sprite, 3.0, FlxColor.RED, FlxColor.GREEN, { onComplete:onTweenComplete } );
- * ```
- * 
- * ### Angle
- * Tweens the angle of a sprite, normal tweening would have trouble going from negative to positive angles.
- * 
- * ```haxe
- * FlxTween.angle(sprite, -90, 180, 3.0, { onComplete:onTweenComplete } );
- * ```
- * ### Num
- * Calls a function with the tweened value over time, no parent object involved.
- * 
- * ```haxe
- * FlxTween.num(0, totalWinnings, 3.0, function(num) { field.text = addCommas(num); });
- * ```
- * 
- * ### Motion
- * The FlxTween class also contains the methods `linearMotion()`, `quadMotion()`, `cubicMotion()` and `circularMotion()`,
- * which make objects follow straight lines, smooth paths or circles.
- * 
- * ### Paths
- * The methods `linearPath()` and `quadPath()` can be used for longer paths defined through an array of points,
- * instead of a fixed number of points.
- */
 class FlxTween implements IFlxDestroyable
 {
 	/**
@@ -252,58 +128,6 @@ class FlxTween implements IFlxDestroyable
 	public static function num(FromValue:Float, ToValue:Float, Duration:Float = 1, ?Options:TweenOptions, ?TweenFunction:Float->Void):NumTween
 	{
 		return globalManager.num(FromValue, ToValue, Duration, Options, TweenFunction);
-	}
-	
-	/**
-	 * Flickers the desired object
-	 *
-	 * @param   basic     The object to flicker
-	 * @param   duration  Duration of the tween, in seconds
-	 * @param   period    How often, in seconds, the visibility cycles
-	 * @param   options   A structure with flicker and tween options
-	 * @since 5.7.0
-	 */
-	public static function flicker(basic:FlxBasic, duration = 1.0, period = 0.08, ?options:FlickerTweenOptions)
-	{
-		return globalManager.flicker(basic, duration, period, options);
-	}
-	
-	/**
-	 * Whether the object is flickering via the global tween manager
-	 * @since 5.7.0
-	 */
-	public static function isFlickering(basic:FlxBasic)
-	{
-		return globalManager.isFlickering(basic);
-	}
-	
-	/**
-	 * Cancels all flicker tweens on the object in the global tween manager
-	 * @since 5.7.0
-	 */
-	public static function stopFlickering(basic:FlxBasic)
-	{
-		return globalManager.stopFlickering(basic);
-	}
-	
-	/**
-	 * A simple shake effect for FlxSprite. Shorthand for creating a ShakeTween, starting it and adding it to the TweenManager.
-	 *
-	 * ```haxe
-	 * FlxTween.shake(Sprite, 0.1, 2, FlxAxes.XY, { ease: easeFunction, onStart: onStart, onUpdate: onUpdate, onComplete: onComplete, type: ONESHOT });
-	 * ```
-	 * 
-	 * @param	Sprite       Sprite to shake.
-	 * @param   Intensity    Percentage representing the maximum distance
-	 *                       that the sprite can move while shaking.
-	 * @param   Duration     The length in seconds that the shaking effect should last.
-	 * @param   Axes         On what axes to shake. Default value is `FlxAxes.XY` / both.
-	 * @param	Options      A structure with tween options.
-	 * @return The added ShakeTween object.
-	 */
-	public static function shake(Sprite:FlxSprite, Intensity:Float = 0.05, Duration:Float = 1, ?Axes:FlxAxes, ?Options:TweenOptions):ShakeTween
-	{
-		return globalManager.shake(Sprite, Intensity, Duration, Axes, Options);
 	}
 
 	/**
@@ -550,12 +374,6 @@ class FlxTween implements IFlxDestroyable
 	public var finished(default, null):Bool;
 	public var scale(default, null):Float = 0;
 	public var backward(default, null):Bool;
-	
-	/**
-	 * The total time passed since start
-	 * @since 5.7.0
-	 */
-	public var time(get, never):Float;
 
 	/**
 	 * How many times this tween has been executed / has finished so far - useful to
@@ -893,15 +711,10 @@ class FlxTween implements IFlxDestroyable
 		}
 		return loopDelay = dly;
 	}
-	
-	inline function get_time():Float
-	{
-		return Math.max(_secondsSinceStart - _delayToUse, 0);
-	}
 
 	inline function get_percent():Float
 	{
-		return time / duration;
+		return Math.max((_secondsSinceStart - _delayToUse), 0) / duration;
 	}
 
 	function set_percent(value:Float):Float
@@ -1041,61 +854,6 @@ class FlxTweenManager extends FlxBasic
 	{
 		var tween = new NumTween(Options, this);
 		tween.tween(FromValue, ToValue, Duration, TweenFunction);
-		return add(tween);
-	}
-	
-	/**
-	 * Flickers the desired object
-	 *
-	 * @param   basic     The object to flicker
-	 * @param   duration  Duration of the tween, in seconds
-	 * @param   period    How often, in seconds, the visibility cycles
-	 * @param   options   A structure with flicker and tween options
-	 * @since 5.7.0
-	 */
-	public function flicker(basic:FlxBasic, duration = 1.0, period = 0.08, ?options:FlickerTweenOptions)
-	{
-		final tween = new FlickerTween(options, this);
-		tween.tween(basic, duration, period);
-		return add(tween);
-	}
-	
-	/**
-	 * Whether the object is flickering via this manager
-	 * @since 5.7.0
-	 */
-	public function isFlickering(basic:FlxBasic)
-	{
-		return containsTweensOf(basic, ["flicker"]);
-	}
-	
-	/**
-	 * Cancels all flicker tweens on the object
-	 * @since 5.7.0
-	 */
-	public function stopFlickering(basic:FlxBasic)
-	{
-		return cancelTweensOf(basic, ["flicker"]);
-	}
-
-	/**
-	 * A simple shake effect for FlxSprite. Shorthand for creating a ShakeTween, starting it and adding it to the TweenManager.
-	 *
-	 * ```haxe
-	 * FlxTween.shake(Sprite, 0.1, 2, FlxAxes.XY, { ease: easeFunction, onStart: onStart, onUpdate: onUpdate, onComplete: onComplete, type: ONESHOT });
-	 * ```
-	 * 
-	 * @param	Sprite       Sprite to shake.
-	 * @param   Intensity    Percentage representing the maximum distance
-	 *                       that the sprite can move while shaking.
-	 * @param   Duration     The length in seconds that the shaking effect should last.
-	 * @param   Axes         On what axes to shake. Default value is `FlxAxes.XY` / both.
-	 * @param	Options      A structure with tween options.
-	 */
-	public function shake(Sprite:FlxSprite, Intensity:Float = 0.05, Duration:Float = 1, ?Axes:FlxAxes = XY, ?Options:TweenOptions):ShakeTween
-	{
-		var tween = new ShakeTween(Options, this);
-		tween.tween(Sprite, Intensity, Duration, Axes);
 		return add(tween);
 	}
 
@@ -1472,37 +1230,37 @@ class FlxTweenManager extends FlxBasic
 	 *
 	 * Note: loops backwards to allow removals.
 	 *
-	 * @param   object      The object with tweens you are searching for.
-	 * @param   fieldPaths  List of the tween field paths to check. If `null` or empty, any tween of
-	 *                      the specified object will match. Allows dot paths to check child properties.
-	 * @param   func        The function to call on each matching tween.
+	 * @param Object The object with tweens you are searching for.
+	 * @param FieldPaths Optional list of the tween field paths to check. If null or empty, any tween of the specified
+	 * object will match. Allows dot paths to check child properties.
+	 * @param Function The function to call on each matching tween.
 	 * 
 	 * @since 4.9.0
 	 */
-	function forEachTweensOf(object:Dynamic, ?fieldPaths:Array<String>, func:FlxTween->Void)
+	function forEachTweensOf(Object:Dynamic, ?FieldPaths:Array<String>, Function:FlxTween->Void)
 	{
-		if (object == null)
+		if (Object == null)
 			throw "Cannot cancel tween variables of an object that is null.";
 		
-		if (fieldPaths == null || fieldPaths.length == 0)
+		if (FieldPaths == null || FieldPaths.length == 0)
 		{
 			var i = _tweens.length;
 			while (i-- > 0)
 			{
 				var tween = _tweens[i];
-				if (tween.isTweenOf(object))
-					func(tween);
+				if (tween.isTweenOf(Object))
+					Function(tween);
 			}
 		}
 		else
 		{
 			// check for dot paths and convert to object/field pairs
 			var propertyInfos = new Array<TweenProperty>();
-			for (fieldPath in fieldPaths)
+			for (fieldPath in FieldPaths)
 			{
-				var target = object;
-				final path = fieldPath.split(".");
-				final field = path.pop();
+				var target = Object;
+				var path = fieldPath.split(".");
+				var field = path.pop();
 				for (component in path)
 				{
 					target = Reflect.getProperty(target, component);
@@ -1517,29 +1275,17 @@ class FlxTweenManager extends FlxBasic
 			var i = _tweens.length;
 			while (i-- > 0)
 			{
-				final tween = _tweens[i];
+				var tween = _tweens[i];
 				for (info in propertyInfos)
 				{
 					if (tween.isTweenOf(info.object, info.field))
 					{
-						func(tween);
+						Function(tween);
 						break;
 					}
 				} 
 			}
 		}
-	}
-	
-	/**
-	 * Crude helper to search for any tweens with the desired properties
-	 * 
-	 * @since 5.7.0
-	 */
-	function containsTweensOf(object:Dynamic, ?fieldPaths:Array<String>):Bool
-	{
-		var found = false;
-		forEachTweensOf(object, fieldPaths, (_)->found = true);
-		return found;
 	}
 
 	/**

@@ -3,12 +3,11 @@ package flixel.input;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxStringUtil;
 
 @:allow(flixel.input.mouse.FlxMouseButton)
 @:allow(flixel.input.touch.FlxTouch)
-class FlxSwipe implements IFlxDestroyable
+class FlxSwipe
 {
 	/**
 	 * Either LEFT_MOUSE, MIDDLE_MOUSE or RIGHT_MOUSE,
@@ -20,10 +19,7 @@ class FlxSwipe implements IFlxDestroyable
 	public var endPosition(default, null):FlxPoint;
 
 	public var distance(get, never):Float;
-	@:deprecated("FlxSwipe.angle is deprecated, use degrees")
 	public var angle(get, never):Float;
-	public var degrees(get, never):Float;
-	public var radians(get, never):Float;
 	public var duration(get, never):Float;
 
 	var _startTimeInTicks:Int;
@@ -37,12 +33,6 @@ class FlxSwipe implements IFlxDestroyable
 		_startTimeInTicks = StartTimeInTicks;
 		_endTimeInTicks = FlxG.game.ticks;
 	}
-	
-	public function destroy()
-	{
-		startPosition = FlxDestroyUtil.put(startPosition);
-		endPosition = FlxDestroyUtil.put(endPosition);
-	}
 
 	inline function toString():String
 	{
@@ -51,7 +41,7 @@ class FlxSwipe implements IFlxDestroyable
 			LabelValuePair.weak("start", startPosition),
 			LabelValuePair.weak("end", endPosition),
 			LabelValuePair.weak("distance", distance),
-			LabelValuePair.weak("degrees", degrees),
+			LabelValuePair.weak("angle", angle),
 			LabelValuePair.weak("duration", duration)
 		]);
 	}
@@ -63,17 +53,7 @@ class FlxSwipe implements IFlxDestroyable
 
 	inline function get_angle():Float
 	{
-		return startPosition.degreesTo(endPosition);
-	}
-
-	inline function get_degrees():Float
-	{
-		return startPosition.degreesTo(endPosition);
-	}
-
-	inline function get_radians():Float
-	{
-		return startPosition.radiansTo(endPosition);
+		return startPosition.angleBetween(endPosition);
 	}
 
 	inline function get_duration():Float

@@ -1,13 +1,11 @@
 package flixel.util;
 
-import flixel.math.FlxAngle;
-
 /**
  * Uses bit flags to create a list of orthogonal directions. useful for
  * many `FlxObject` features like `allowCollisions` and `touching`.
  * @since 4.10.0
  */
-enum abstract FlxDirectionFlags(Int) from Int from FlxDirection to Int
+@:enum abstract FlxDirectionFlags(Int) from Int from FlxDirection to Int
 {
 	var LEFT = 0x0001; // FlxDirection.LEFT;
 	var RIGHT = 0x0010; // FlxDirection.RIGHT;
@@ -34,51 +32,11 @@ enum abstract FlxDirectionFlags(Int) from Int from FlxDirection to Int
 	var ANY = 0x1111; // LEFT | RIGHT | UP | DOWN;
 
 	/**
-	 * Calculates the angle (in degrees) of the facing flags.
-	 * Returns 0 if two opposing flags are true.
-	 * @since 5.0.0
-	 */
-	public var degrees(get, never):Float;
-	function get_degrees():Float
-	{
-		return switch (this) {
-			case RIGHT: 0;
-			case DOWN: 90;
-			case UP: -90;
-			case LEFT: 180;
-			case f if (f == DOWN | RIGHT): 45;
-			case f if (f == DOWN | LEFT): 135;
-			case f if (f == UP | RIGHT): -45;
-			case f if (f == UP | LEFT): -135;
-			default: 0;
-		}
-	}
-
-	/**
-	 * Calculates the angle (in radians) of the facing flags.
-	 * Returns 0 if two opposing flags are true.
-	 * @since 5.0.0
-	 */
-	public var radians(get, never):Float;
-	inline function get_radians():Float
-	{
-		return degrees * FlxAngle.TO_RAD;
-	}
-
-	/**
-	 * Returns true if this contains **all** of the supplied flags.
+	 * Returns true if this contains all of the supplied flags.
 	 */
 	public inline function has(dir:FlxDirectionFlags):Bool
 	{
 		return this & dir == dir;
-	}
-
-	/**
-	 * Returns true if this contains **any** of the supplied flags.
-	 */
-	public inline function hasAny(dir:FlxDirectionFlags):Bool
-	{
-		return this & dir > 0;
 	}
 
 	/**
@@ -114,18 +72,6 @@ enum abstract FlxDirectionFlags(Int) from Int from FlxDirection to Int
 
 		// remove the first " | "
 		return str.substr(3);
-	}
-
-	/**
-	 * Generates a FlxDirectonFlags instance from 4 bools
-	 * @since 5.0.0
-	 */
-	public static function fromBools(left:Bool, right:Bool, up:Bool, down:Bool):FlxDirectionFlags
-	{
-		return (left  ? LEFT  : NONE)
-			|  (right ? RIGHT : NONE)
-			|  (up    ? UP    : NONE)
-			|  (down  ? DOWN  : NONE);
 	}
 
 	// Expose int operators

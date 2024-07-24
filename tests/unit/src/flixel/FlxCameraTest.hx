@@ -4,7 +4,6 @@ import flixel.util.FlxColor;
 import massive.munit.Assert;
 
 @:access(flixel.system.frontEnds.CameraFrontEnd)
-@:access(flixel.FlxCamera)
 class FlxCameraTest extends FlxTest
 {
 	var camera:FlxCamera;
@@ -40,16 +39,16 @@ class FlxCameraTest extends FlxTest
 	@Test
 	function testDefaultCameras():Void
 	{
-		Assert.areEqual(FlxG.cameras.defaults, FlxCamera._defaultCameras);
+		Assert.areEqual(FlxG.cameras.defaults, FlxCamera.defaultCameras);
 	}
 
 	@Test
 	function testDefaultCamerasStateSwitch():Void
 	{
-		FlxCamera._defaultCameras = [FlxG.camera];
+		FlxCamera.defaultCameras = [FlxG.camera];
 		switchState(new FlxState());
 
-		Assert.areEqual(FlxG.cameras.defaults, FlxCamera._defaultCameras);
+		Assert.areEqual(FlxG.cameras.defaults, FlxCamera.defaultCameras);
 	}
 
 	@Test

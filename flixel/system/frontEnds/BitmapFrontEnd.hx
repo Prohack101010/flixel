@@ -1,6 +1,6 @@
 package flixel.system.frontEnds;
 
-import openfl.display.BitmapData;
+import flash.display.BitmapData;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFrame;
 import flixel.math.FlxPoint;
@@ -9,7 +9,11 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import openfl.Assets;
 #if !flash
+#if openfl_legacy
+import openfl.gl.GL;
+#else
 import lime.graphics.opengl.GL;
+#end
 #end
 
 /**
@@ -287,16 +291,14 @@ class BitmapFrontEnd
 
 	/**
 	 * Totally removes specified FlxGraphic object.
-	 * @param   graphic  object you want to remove and destroy.
+	 * @param	FlxGraphic object you want to remove and destroy.
 	 */
 	public function remove(graphic:FlxGraphic):Void
 	{
 		if (graphic != null)
 		{
 			removeKey(graphic.key);
-			// TODO: find causes of this, and prevent crashes from double graphic destroys
-			if (!graphic.isDestroyed)
-				graphic.destroy();
+			graphic.destroy();
 		}
 	}
 

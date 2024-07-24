@@ -70,6 +70,26 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	public var justMoved(get, never):Bool;
 
 	/**
+	 * Distance in pixels the mouse has moved since the last frame in the X direction.
+	 */
+	public var deltaX(get, never):Int;
+
+	/**
+	 * Distance in pixels the mouse has moved since the last frame in the Y direction.
+	 */
+	public var deltaY(get, never):Int;
+
+	/**
+	 * Distance in pixels the mouse has moved in screen space since the last frame in the X direction.
+	 */
+	public var deltaScreenX(get, never):Int;
+
+	/**
+	 * Distance in pixels the mouse has moved in screen space since the last frame in the Y direction.
+	 */
+	public var deltaScreenY(get, never):Int;
+
+	/**
 	 * Check to see if the left mouse button is currently pressed.
 	 */
 	public var pressed(get, never):Bool;
@@ -178,6 +198,8 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	var _prevX:Int = 0;
 
 	var _prevY:Int = 0;
+	var _prevScreenX:Int = 0;
+	var _prevScreenY:Int = 0;
 
 	// Helper variable for cleaning up memory
 	var _stage:Stage;
@@ -452,6 +474,8 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	{
 		_prevX = x;
 		_prevY = y;
+		_prevScreenX = screenX;
+		_prevScreenY = screenY;
 
 		#if !FLX_UNIT_TEST // Travis segfaults when game.mouseX / Y is accessed
 		setGlobalScreenPositionUnsafe(FlxG.game.mouseX, FlxG.game.mouseY);
@@ -543,6 +567,18 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 
 	inline function get_justMoved():Bool
 		return _prevX != x || _prevY != y;
+
+	inline function get_deltaX():Int
+		return x - _prevX;
+
+	inline function get_deltaY():Int
+		return y - _prevY;
+
+	inline function get_deltaScreenX():Int
+		return screenX - _prevScreenX;
+
+	inline function get_deltaScreenY():Int
+		return screenY - _prevScreenY;
 
 	inline function get_pressed():Bool
 		return _leftButton.pressed;

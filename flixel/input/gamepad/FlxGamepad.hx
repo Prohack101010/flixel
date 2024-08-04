@@ -21,8 +21,8 @@ import flixel.math.FlxVector;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxStringUtil;
 #if FLX_GAMEINPUT_API
-import openfl.ui.GameInputControl;
-import openfl.ui.GameInputDevice;
+import flash.ui.GameInputControl;
+import flash.ui.GameInputDevice;
 import flixel.math.FlxMath;
 #elseif FLX_JOYSTICK_API
 import flixel.math.FlxPoint;

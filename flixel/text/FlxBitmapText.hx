@@ -1,6 +1,6 @@
 package flixel.text;
 
-import openfl.display.BitmapData;
+import flash.display.BitmapData;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;

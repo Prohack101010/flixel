@@ -1,7 +1,7 @@
 package flixel.input.touch;
 
 #if FLX_TOUCH
-import openfl.geom.Point;
+import flash.geom.Point;
 import flixel.FlxG;
 import flixel.input.FlxInput;
 import flixel.input.FlxSwipe;

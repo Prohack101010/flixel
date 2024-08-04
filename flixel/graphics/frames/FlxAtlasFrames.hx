@@ -1,6 +1,6 @@
 package flixel.graphics.frames;
 
-import openfl.geom.Rectangle;
+import flash.geom.Rectangle;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames.TexturePackerObject;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;

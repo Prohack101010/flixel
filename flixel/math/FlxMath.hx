@@ -1,6 +1,6 @@
 package flixel.math;
 
-import openfl.geom.Rectangle;
+import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 #if FLX_TOUCH

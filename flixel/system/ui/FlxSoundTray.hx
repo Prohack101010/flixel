@@ -1,19 +1,19 @@
 package flixel.system.ui;
 
 #if FLX_SOUND_SYSTEM
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.display.Sprite;
-import openfl.Lib;
-import openfl.text.TextField;
-import openfl.text.TextFormat;
-import openfl.text.TextFormatAlign;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.Sprite;
+import flash.Lib;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flixel.FlxG;
 import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 #if flash
-import openfl.text.AntiAliasType;
-import openfl.text.GridFitType;
+import flash.text.AntiAliasType;
+import flash.text.GridFitType;
 #end
 
 /**

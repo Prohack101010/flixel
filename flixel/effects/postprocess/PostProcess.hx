@@ -1,6 +1,6 @@
 package flixel.effects.postprocess;
 
-import openfl.geom.Rectangle;
+import flash.geom.Rectangle;
 #if FLX_POST_PROCESS
 import flixel.FlxG;
 import openfl.Assets;

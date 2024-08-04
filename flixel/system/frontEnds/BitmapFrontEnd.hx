@@ -1,6 +1,6 @@
 package flixel.system.frontEnds;
 
-import openfl.display.BitmapData;
+import flash.display.BitmapData;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFrame;
 import flixel.math.FlxPoint;

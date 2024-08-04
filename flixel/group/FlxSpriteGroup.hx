@@ -1,7 +1,7 @@
 package flixel.group;
 
-import openfl.display.BitmapData;
-import openfl.display.BlendMode;
+import flash.display.BitmapData;
+import flash.display.BlendMode;
 import flixel.FlxCamera;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFrame;

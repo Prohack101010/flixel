@@ -1,6 +1,6 @@
 package flixel.util;
 
-import openfl.display.Graphics;
+import flash.display.Graphics;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;

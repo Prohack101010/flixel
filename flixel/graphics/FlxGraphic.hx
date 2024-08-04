@@ -12,7 +12,7 @@ import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 #if !FLX_DRAW_QUADS
-import openfl.display.Tilesheet;
+import openfl.display.Tilemap as Tilesheet;
 #end
 
 /**
